@@ -96,7 +96,7 @@ This pattern can be repeated for deeply nested collections.  For example if and 
 
 Under the /example directory you will find a simple sample application demonstrating three level deep nested binding.  The actual backbone.js code is writen in coffescript and can be found in /example/app/example.coffee.  All of the underscore.js templates are in the /example/public/index.html file.
 
-![screenshot](http://github/jwarzech/backbone.modelbinding.nested/repository/raw/master/example/public/images/screenshot.png)
+![screenshot](https://github.com/jwarzech/backbone.modelbinding.nested/raw/master/example/public/images/screenshot.png)
 
 The sample app uses sample data (from [stackexchange](http://data.stackexchange.com/)) consisting of questions having answers that have comments.
 
