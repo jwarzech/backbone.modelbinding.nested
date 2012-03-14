@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Nested Backbone Model Binding</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="stylesheets/bootstrap.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="javascripts/jquery.js"></script>
+    <script src="javascripts/bootstrap.js"></script>
+    <script src="javascripts/underscore.js"></script>
+    <script src="javascripts/backbone.js"></script>
+    <script src="javascripts/backbone.modelbinding.js"></script>
+    <script src="../../backbone.modelbinding.nested.js"></script>
+    <script src="javascripts/example.js"></script>
+    <script src="javascripts/data.js"></script>
+    
+    <!-- Templates -->    
+    <script type="text/template" id="question">
+      <div class="row">
+        <div class="span8">
+          <input type="text" id="score" class="span1" /> 
+          <input type="text" id='title'  class="span7" />
+          <h4>answers</h4>
+          <div class="answers"></div>
+        </div>
+      </div>
+    </script>
+    
+    <script type="text/template" id="answers">
+      <div class="answer row">
+        <div class="span7 offset1">
+          <input type="text" id="answers-<%= id %>-score" class="span1" />
+          <input type="text" id="answers-<%= id %>-user"  class="span6" />
+          <h4>comments</h4>
+          <div class="comments"></div>
+        </div>
+      </div>
+    </script>
+    
+    <script type="text/template" id="comments">    
+      <div class="comment row">
+        <div class="span6 offset1">
+          <input type="text" id="answers-<%= get('answer_id') %>-comments-<%= id %>-score" class="span1" />
+          <input type="text" id="answers-<%= get('answer_id') %>-comments-<%= id %>-user" class="span5" />        
+        </div>
+      </div>
+    </script>
+    
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span4">
+          <!--Sidebar content-->
+          <div class="navbar">
+            <div class="navbar-inner">
+              <div class="container">
+                <span class="brand">
+                  Data Source
+                </span>
+                <div class="pull-right">
+                  <button id="refresh" class="btn btn-info">Refresh</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <pre class="src">
+          </pre>
+        </div>
+        <div class="span8">
+          <!--Body content-->
+          <div class="row">
+            <div class="span8">
+              <h1 class="title">Nested Backbone Model Binding Example</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="span8">
+              <div id="content">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
