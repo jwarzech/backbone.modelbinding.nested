@@ -22,17 +22,11 @@ class Example.Router extends Backbone.Router
 # Models
 class Example.Question extends Backbone.Model
   initialize: ->
-    if @has('answers') && @get('answers').length > 0
-      @set 'answers' : new Example.Answers(@get('answers'))
-    else
-      @set 'answers' : new Example.Answers()
+    @buildCollection('answers', Example.Answers)
   
 class Example.Answer extends Backbone.Model
   initialize: ->
-    if @has('comments') && @get('comments').length > 0
-      @set 'comments' : new Example.Comments(@get('comments'))
-    else
-      @set 'comments' : new Example.Comments()
+    @buildCollection('comments', Example.Comments)
   
 class Example.Comment extends Backbone.Model
   
@@ -41,7 +35,7 @@ class Example.Questions extends Backbone.Collection
   model: Example.Question
   
 class Example.Answers extends Backbone.Collection
-  model: Example.Answer
+  model: Example.Answer  
 
 class Example.Comments extends Backbone.Collection
   model: Example.Comment
@@ -65,6 +59,13 @@ class Example.IndexView extends Backbone.View
 class Example.QuestionView extends Backbone.View
   className: "question"
     
+  events:
+    'click .add-answer' : 'addAnswer'
+    
+  addAnswer: ->
+    @model.get('answers').add(new Example.Answer())
+    @render()
+ 
   close: =>
     @unbind()
     Backbone.ModelBinding.unbind(this)
@@ -74,11 +75,20 @@ class Example.QuestionView extends Backbone.View
     $(@el).html(_.template($('#question').html())(@model))
     @model.get('answers').each (answer) =>
       view = new Example.AnswerView(model: answer)
+      view.bind('render', => @render())
       $(@el).find('.answers').append(view.render().el)
+      
     Backbone.ModelBinding.bind(this)
     return this
     
 class Example.AnswerView extends Backbone.View
+  events:
+    'click .add-comment' : 'addComment'
+  
+  addComment: ->
+    @model.get('comments').add(new Example.Comment())
+    @trigger('render')
+    
   render: =>
     $(@el).html(_.template($('#answers').html())(@model))
     @model.get('comments').each (comment) =>

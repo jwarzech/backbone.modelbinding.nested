@@ -20,7 +20,12 @@
         <div class="span8">
           <input type="text" id="score" class="span1" /> 
           <input type="text" id='title'  class="span7" />
-          <h4>answers</h4>
+        </div>
+      </div>
+      <div clas="row">
+        <h4>answers</h4>
+        <button class="btn add-answer">Add Answer</button>
+        <div class="span8">
           <div class="answers"></div>
         </div>
       </div>
@@ -29,9 +34,14 @@
     <script type="text/template" id="answers">
       <div class="answer row">
         <div class="span7 offset1">
-          <input type="text" id="answers-<%= id %>-score" class="span1" />
-          <input type="text" id="answers-<%= id %>-user"  class="span6" />
-          <h4>comments</h4>
+          <input type="text" id="answers-<%= bindingId() %>-score" class="span1" />
+          <input type="text" id="answers-<%= bindingId() %>-user"  class="span6" />
+        </div>
+      </div>
+      <div clas="row">
+        <h4>comments</h4>
+        <button class="btn add-comment">Add Comment</button>
+        <div class="span7 offset1">
           <div class="comments"></div>
         </div>
       </div>
@@ -40,8 +50,8 @@
     <script type="text/template" id="comments">    
       <div class="comment row">
         <div class="span6 offset1">
-          <input type="text" id="answers-<%= get('answer_id') %>-comments-<%= id %>-score" class="span1" />
-          <input type="text" id="answers-<%= get('answer_id') %>-comments-<%= id %>-user" class="span5" />        
+          <input type="text" id="answers-<%= collection.parent.bindingId() %>-comments-<%= bindingId() %>-score" class="span1" />
+          <input type="text" id="answers-<%= collection.parent.bindingId() %>-comments-<%= bindingId() %>-user" class="span5" />
         </div>
       </div>
     </script>

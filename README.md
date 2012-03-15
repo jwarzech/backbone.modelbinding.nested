@@ -42,10 +42,7 @@ For models having child collections you will need to construct a Backbone collec
 ````
 class Example.Question extends Backbone.Model
   initialize: ->
-    if @has('answers') && @get('answers').length > 0
-      @set 'answers' : new Example.Answers(@get('answers'))
-    else
-      @set 'answers' : new Example.Answers()
+    @buildCollection('answers', Example.Answers)
 ````
 
 ###Setting up your view
@@ -101,6 +98,20 @@ Under the /example directory you will find a simple sample application demonstra
 The sample app uses sample data (from [stackexchange](http://data.stackexchange.com/)) consisting of questions having answers that have comments.
 
 To demonstrate that the binding is working, modify the form contents and click 'Refresh' to see that the data source was changed.
+
+##Release Notes
+
+###v0.2.0
+
+* Fixed issue of binding newly created models by adding the __Backbone.Collection.safeGet__ method and __Backbone.Model.bindingId__ method to utilize the object's  cid if an id is unavailable.
+
+* Added __Backbone.Model.buildCollection(attribute, collection)__ helper method that helps build child collections that have a reference to their parent.
+
+* Updated the example app and documentation to demonstrate the updates.
+
+###v0.1.0
+
+* Initial Release
 
 ##MIT License
 

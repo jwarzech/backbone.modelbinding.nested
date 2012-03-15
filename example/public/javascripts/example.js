@@ -51,15 +51,7 @@
     }
 
     Question.prototype.initialize = function() {
-      if (this.has('answers') && this.get('answers').length > 0) {
-        return this.set({
-          'answers': new Example.Answers(this.get('answers'))
-        });
-      } else {
-        return this.set({
-          'answers': new Example.Answers()
-        });
-      }
+      return this.buildCollection('answers', Example.Answers);
     };
 
     return Question;
@@ -75,15 +67,7 @@
     }
 
     Answer.prototype.initialize = function() {
-      if (this.has('comments') && this.get('comments').length > 0) {
-        return this.set({
-          'comments': new Example.Comments(this.get('comments'))
-        });
-      } else {
-        return this.set({
-          'comments': new Example.Comments()
-        });
-      }
+      return this.buildCollection('comments', Example.Comments);
     };
 
     return Answer;
@@ -194,6 +178,15 @@
 
     QuestionView.prototype.className = "question";
 
+    QuestionView.prototype.events = {
+      'click .add-answer': 'addAnswer'
+    };
+
+    QuestionView.prototype.addAnswer = function() {
+      this.model.get('answers').add(new Example.Answer());
+      return this.render();
+    };
+
     QuestionView.prototype.close = function() {
       this.unbind();
       Backbone.ModelBinding.unbind(this);
@@ -207,6 +200,9 @@
         var view;
         view = new Example.AnswerView({
           model: answer
+        });
+        view.bind('render', function() {
+          return _this.render();
         });
         return $(_this.el).find('.answers').append(view.render().el);
       });
@@ -226,6 +222,15 @@
       this.render = __bind(this.render, this);
       AnswerView.__super__.constructor.apply(this, arguments);
     }
+
+    AnswerView.prototype.events = {
+      'click .add-comment': 'addComment'
+    };
+
+    AnswerView.prototype.addComment = function() {
+      this.model.get('comments').add(new Example.Comment());
+      return this.trigger('render');
+    };
 
     AnswerView.prototype.render = function() {
       var _this = this;
