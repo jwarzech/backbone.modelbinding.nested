@@ -21,17 +21,11 @@ Download `backbone.modelbinding.nested-min.js` from the git repository and copy 
 Backbone.ModelBinding.Nested overrides the existing model binding conventions for the following types:
 
 * text
+* textarea
 * password
-* radio
 * checkbox
 * select
-* textarea
-* number
-* range
-* tel
-* search
-* url
-* email
+* radio button groups
 
 ###Setting up your model
 
