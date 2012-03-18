@@ -1,5 +1,5 @@
 ###
-//  Backbone.ModelBinding.Nested 0.2.0
+//  Backbone.ModelBinding.Nested 0.3.0
 //  
 //  (c) 2012 Jordan Warzecha
 //  Distributed under the MIT license.
@@ -102,4 +102,3 @@ Backbone.ModelBinding.Conventions.textarea.handler = Backbone.ModelBinding.neste
 Backbone.ModelBinding.Conventions.password.handler = Backbone.ModelBinding.nestedHandler
 Backbone.ModelBinding.Conventions.checkbox.handler = Backbone.ModelBinding.nestedHandler
 Backbone.ModelBinding.Conventions.select.handler = Backbone.ModelBinding.nestedHandler
-Backbone.ModelBinding.Conventions.radio.handler = Backbone.ModelBinding.nestedHandler
