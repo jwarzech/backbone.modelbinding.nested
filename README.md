@@ -21,17 +21,10 @@ Download `backbone.modelbinding.nested-min.js` from the git repository and copy 
 Backbone.ModelBinding.Nested overrides the existing model binding conventions for the following types:
 
 * text
+* textarea
 * password
-* radio
 * checkbox
 * select
-* textarea
-* number
-* range
-* tel
-* search
-* url
-* email
 
 ###Setting up your model
 
@@ -100,6 +93,10 @@ The sample app uses sample data (from [stackexchange](http://data.stackexchange.
 To demonstrate that the binding is working, modify the form contents and click 'Refresh' to see that the data source was changed.
 
 ##Release Notes
+
+###v0.3.0
+
+* Fixed issue that caused checkboxes to never show value as changed.
 
 ###v0.2.0
 

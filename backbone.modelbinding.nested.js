@@ -1,5 +1,5 @@
 /*
-//  Backbone.ModelBinding.Nested 0.2.0
+//  Backbone.ModelBinding.Nested 0.3.0
 //  
 //  (c) 2012 Jordan Warzecha
 //  Distributed under the MIT license.
@@ -68,7 +68,7 @@ Backbone.ModelBinding.parseNestedTokens = function(entity, tokens) {
 Backbone.ModelBinding.nestedHandler = {
   bind: function(selector, view, model) {
     return view.$(selector).each(function(index, value) {
-      var attribute, entity, result, tokens,
+      var attribute, entity, isCheckbox, result, tokens,
         _this = this;
       tokens = value.id.split("-");
       if (tokens.length === 1) {
@@ -80,41 +80,37 @@ Backbone.ModelBinding.nestedHandler = {
         entity = result.entity;
         attribute = result.attribute;
       }
+      isCheckbox = $(this).prop("tagName") === 'INPUT' && $(this).prop("type") === 'checkbox';
       $(this).change(function() {
-        if ($(_this).val() !== entity.safeGet(attribute)) {
-          return entity.setByName(attribute, $(_this).val());
+        if (isCheckbox && $(_this).prop('checked') !== entity.safeGet(attribute)) {
+          value = $(_this).prop('checked');
+        } else if ($(_this).val() !== entity.safeGet(attribute)) {
+          value = $(_this).val();
         }
+        if (value != null) return entity.setByName(attribute, value);
       });
       entity.bind("change:" + attribute, function() {
-        if (entity.safeGet(attribute) !== $(_this).val()) {
+        if (isCheckbox && entity.safeGet(attribute) !== $(_this).prop('checked')) {
+          return $(_this).prop('checked', entity.safeGet(attribute));
+        } else if (entity.safeGet(attribute) !== $(_this).val()) {
           return $(_this).val(entity.safeGet(attribute));
         }
       });
-      return $(this).val(entity.safeGet(attribute));
+      if (isCheckbox) {
+        return $(this).prop('checked', entity.safeGet(attribute));
+      } else {
+        return $(this).val(entity.safeGet(attribute));
+      }
     });
   }
 };
 
 Backbone.ModelBinding.Conventions.text.handler = Backbone.ModelBinding.nestedHandler;
 
-Backbone.ModelBinding.Conventions.password.handler = Backbone.ModelBinding.nestedHandler;
+Backbone.ModelBinding.Conventions.textarea.handler = Backbone.ModelBinding.nestedHandler;
 
-Backbone.ModelBinding.Conventions.radio.handler = Backbone.ModelBinding.nestedHandler;
+Backbone.ModelBinding.Conventions.password.handler = Backbone.ModelBinding.nestedHandler;
 
 Backbone.ModelBinding.Conventions.checkbox.handler = Backbone.ModelBinding.nestedHandler;
 
 Backbone.ModelBinding.Conventions.select.handler = Backbone.ModelBinding.nestedHandler;
-
-Backbone.ModelBinding.Conventions.textarea.handler = Backbone.ModelBinding.nestedHandler;
-
-Backbone.ModelBinding.Conventions.number.handler = Backbone.ModelBinding.nestedHandler;
-
-Backbone.ModelBinding.Conventions.range.handler = Backbone.ModelBinding.nestedHandler;
-
-Backbone.ModelBinding.Conventions.tel.handler = Backbone.ModelBinding.nestedHandler;
-
-Backbone.ModelBinding.Conventions.search.handler = Backbone.ModelBinding.nestedHandler;
-
-Backbone.ModelBinding.Conventions.url.handler = Backbone.ModelBinding.nestedHandler;
-
-Backbone.ModelBinding.Conventions.email.handler = Backbone.ModelBinding.nestedHandler;

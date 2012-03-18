@@ -1,5 +1,5 @@
 ###
-//  Backbone.ModelBinding.Nested 0.2.0
+//  Backbone.ModelBinding.Nested 0.3.0
 //  
 //  (c) 2012 Jordan Warzecha
 //  Distributed under the MIT license.
@@ -72,31 +72,33 @@ Backbone.ModelBinding.nestedHandler =
         entity = result.entity
         attribute = result.attribute
           
+      isCheckbox = $(this).prop("tagName") == 'INPUT' && $(this).prop("type") == 'checkbox'
+          
       # Setup binding UI -> model
       $(this).change =>
-        if $(this).val() != entity.safeGet(attribute)
-          # console.log 'UI -> model'
-          entity.setByName(attribute, $(this).val())
+        if isCheckbox && $(this).prop('checked') != entity.safeGet(attribute)
+          value = $(this).prop('checked')
+        else if $(this).val() != entity.safeGet(attribute)
+          value = $(this).val()
+          
+        entity.setByName(attribute, value) if value?
       
       # Setup binding model -> UI
       entity.bind "change:#{attribute}", =>
-        if entity.safeGet(attribute) != $(this).val()
-          # console.log 'model -> UI'
+        if isCheckbox && entity.safeGet(attribute) != $(this).prop('checked')
+          $(this).prop('checked', entity.safeGet(attribute))
+        else if entity.safeGet(attribute) != $(this).val()
           $(this).val(entity.safeGet(attribute))
       
       # Initialize binding
-      $(this).val(entity.safeGet(attribute))
+      if isCheckbox
+        $(this).prop('checked', entity.safeGet(attribute))
+      else 
+        $(this).val(entity.safeGet(attribute))
       
 # Setup nested binding conventions
 Backbone.ModelBinding.Conventions.text.handler = Backbone.ModelBinding.nestedHandler
+Backbone.ModelBinding.Conventions.textarea.handler = Backbone.ModelBinding.nestedHandler
 Backbone.ModelBinding.Conventions.password.handler = Backbone.ModelBinding.nestedHandler
-Backbone.ModelBinding.Conventions.radio.handler = Backbone.ModelBinding.nestedHandler
 Backbone.ModelBinding.Conventions.checkbox.handler = Backbone.ModelBinding.nestedHandler
 Backbone.ModelBinding.Conventions.select.handler = Backbone.ModelBinding.nestedHandler
-Backbone.ModelBinding.Conventions.textarea.handler = Backbone.ModelBinding.nestedHandler
-Backbone.ModelBinding.Conventions.number.handler = Backbone.ModelBinding.nestedHandler
-Backbone.ModelBinding.Conventions.range.handler = Backbone.ModelBinding.nestedHandler
-Backbone.ModelBinding.Conventions.tel.handler = Backbone.ModelBinding.nestedHandler
-Backbone.ModelBinding.Conventions.search.handler = Backbone.ModelBinding.nestedHandler
-Backbone.ModelBinding.Conventions.url.handler = Backbone.ModelBinding.nestedHandler
-Backbone.ModelBinding.Conventions.email.handler = Backbone.ModelBinding.nestedHandler
